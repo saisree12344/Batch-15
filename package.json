@@ -1,9 +1,9 @@
 {
   "name": "proctoring",
   "version": "1.0.0",
-  "description": "",
+  "description": "AI Proctoring System",
   "main": "server.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
