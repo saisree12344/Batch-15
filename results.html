@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Results - AI Proctoring</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container results-page">
+        <header>
+            <h1>Session Completed</h1>
+        </header>
+
+        <main style="display: block;">
+            <div
+                style="text-align: center; max-width: 600px; margin: 4rem auto; background: var(--card-bg); padding: 3rem; border-radius: 1.5rem; border: 1px solid #334155;">
+                <div class="success-icon" style="font-size: 4rem; margin-bottom: 2rem;">✅</div>
+                <h2 style="color: var(--accent); margin-bottom: 1rem;">Submission Successful</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">Your session has been
+                    securely ended and proctoring data has been logged for review.</p>
+
+                <div class="results-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; text-align: left;">
+                    
+                    <div id="student-profile" style="background: var(--bg-color); padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155;">
+                        <h3 style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Candidate Details</h3>
+                        <p style="margin-bottom: 0.5rem;"><strong>Name:</strong> <span id="res-name">--</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Roll No:</strong> <span id="res-roll">--</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> <span id="res-email">--</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>College:</strong> <span id="res-college">--</span></p>
+                        <p><strong>CGPA:</strong> <span id="res-cgpa">--</span></p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div id="trust-score-section" style="background: var(--bg-color); padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155; text-align: center;">
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Final Trust Score</p>
+                            <p id="final-trust-score" style="font-size: 2.5rem; font-weight: bold; color: var(--accent);">--%</p>
+                        </div>
+                        
+                        <div id="exam-result-section" style="background: var(--bg-color); padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155; text-align: center;">
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Exam Score</p>
+                            <p id="final-score" style="font-size: 2.5rem; font-weight: bold; color: var(--success);">--/--</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="location.href='setup.html'" class="primary-btn" style="width: 100%;">Return to
+                    Dashboard</button>
+            </div>
+        </main>
+    </div>
+    <script src="results.js"></script>
+</body>
+
+</html>

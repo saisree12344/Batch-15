@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup - AI Proctoring Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="error-display" class="error-banner" style="display: none;"></div>
+    <div class="container setup-page">
+        <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+            <div>
+                <h1>Exam Setup Dashboard</h1>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Configure your session before starting
+                    proctoring.</p>
+            </div>
+            <div id="auth-badge" class="status-badge"
+                style="background: var(--bg-secondary); border-color: var(--text-secondary); color: var(--text-secondary);">
+                Not Logged In
+            </div>
+        </header>
+
+        <main style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+            <div class="card setup-card">
+                <h2>Exam Details</h2>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="exam-url"
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Exam URL</label>
+                    <input type="text" id="exam-url" placeholder="https://forms.google.com/..."
+                        style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid #334155; color: white; border-radius: 0.5rem;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label for="time-limit"
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Time Limit
+                        (Minutes)</label>
+                    <input type="number" id="time-limit" value="30" min="1"
+                        style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid #334155; color: white; border-radius: 0.5rem;">
+                </div>
+
+                <div class="setup-checklist"
+                    style="background: var(--bg-color); padding: 1rem; border-radius: 0.5rem; border: 1px solid #334155;">
+                    <p style="font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Pre-Session Checklist:</p>
+                    <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.25rem;">
+                        <li>Ensure you are alone in the room.</li>
+                        <li>Check that your microphone is working.</li>
+                        <li>Stay in the browser tab during the exam.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card camera-card">
+                <h2>Webcam Check</h2>
+                <div class="video-container"
+                    style="aspect-ratio: 16/9; background: #000; border-radius: 1rem; overflow: hidden; margin-bottom: 1rem;">
+                    <video id="webcam-preview" autoplay playsinline
+                        style="width: 100%; height: 100%; object-fit: cover;"></video>
+                </div>
+                <div id="camera-status" style="text-align: center; color: var(--success); font-size: 0.9rem;">Camera is
+                    Active</div>
+
+                <div id="screen-status"
+                    style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <span>Screen Share: Not Active</span>
+                    <button id="share-screen-btn" class="accent-btn" style="width: auto; align-self: center;">Share
+                        Entire Screen</button>
+                </div>
+
+                <button id="start-session-btn" class="primary-btn"
+                    style="width: 100%; margin-top: 2rem; padding: 1rem;">Start Proctored Session</button>
+            </div>
+        </main>
+    </div>
+    <script src="setup.js"></script>
+</body>
+
+</html>

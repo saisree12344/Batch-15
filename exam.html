@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Knowledge Quiz</title>
+    <link rel="stylesheet" href="exam.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>General Knowledge Quiz</h1>
+
+        <div id="quiz-form">
+            <div class="question" data-answer="2">
+                <p>1. Which planet is known as the Red Planet?</p>
+                <div class="options-list">
+                    <div class="option" data-idx="0">Earth</div>
+                    <div class="option" data-idx="1">Venus</div>
+                    <div class="option" data-idx="2">Mars</div>
+                    <div class="option" data-idx="3">Jupiter</div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="1">
+                <p>2. What is the capital of France?</p>
+                <div class="options-list">
+                    <div class="option" data-idx="0">Berlin</div>
+                    <div class="option" data-idx="1">Paris</div>
+                    <div class="option" data-idx="2">Madrid</div>
+                    <div class="option" data-idx="3">Rome</div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="0">
+                <p>3. What is the largest ocean on Earth?</p>
+                <div class="options-list">
+                    <div class="option" data-idx="0">Pacific Ocean</div>
+                    <div class="option" data-idx="1">Atlantic Ocean</div>
+                    <div class="option" data-idx="2">Indian Ocean</div>
+                    <div class="option" data-idx="3">Arctic Ocean</div>
+                </div>
+            </div>
+
+            <button id="submit-btn" onclick="submitQuiz()">Submit Answers</button>
+        </div>
+
+        <div id="result" class="result-container">
+            <div class="score-text">Your Score: <span id="score-val">0</span> / 3</div>
+            <div id="feedback-msg" class="feedback"></div>
+            <button onclick="location.reload()" id="restart-btn"
+                style="margin-top: 20px; padding: 10px 20px; background: #94a3b8; border: none; color: white; border-radius: 5px; cursor: pointer;">Reset
+                Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const selections = {};
+
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function () {
+                const questionDiv = this.closest('.question');
+                const questionId = Array.from(document.querySelectorAll('.question')).indexOf(questionDiv);
+
+                // Remove selected class from all options in this question
+                questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                selections[questionId] = parseInt(this.getAttribute('data-idx'));
+            });
+        });
+
+        function submitQuiz() {
+            const questions = document.querySelectorAll('.question');
+            let score = 0;
+
+            questions.forEach((q, idx) => {
+                const correctAnswer = parseInt(q.getAttribute('data-answer'));
+                const userAnswer = selections[idx];
+                const options = q.querySelectorAll('.option');
+
+                options.forEach((opt, optIdx) => {
+                    opt.classList.remove('selected');
+                    if (optIdx === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                    if (userAnswer === optIdx && userAnswer !== correctAnswer) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            });
+
+            document.getElementById('quiz-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('score-val').innerText = score;
+
+            // Notify parent window (proctoring assistant)
+            window.parent.postMessage({
+                type: 'EXAM_RESULT',
+                score: score,
+                total: questions.length,
+                timestamp: new Date().toISOString()
+            }, '*');
+
+            const feedback = document.getElementById('feedback-msg');
+            if (score === questions.length) {
+                feedback.innerText = "Excellent! You got everything right.";
+                feedback.style.color = "var(--success)";
+            } else if (score > 0) {
+                feedback.innerText = "Good job! Review your answers above.";
+                feedback.style.color = "var(--primary)";
+            } else {
+                feedback.innerText = "Better luck next time. Study and try again!";
+                feedback.style.color = "var(--danger)";
+            }
+        }
+    </script>
+</body>
+
+</html>

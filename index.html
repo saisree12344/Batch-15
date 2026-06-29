@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - AI Proctoring</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="error-display" class="error-banner" style="display: none;"></div>
+
+    <div class="container login-page">
+        <div class="card login-card">
+            <h1 style="text-align: center; margin-bottom: 0.5rem;">Student Verification</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Please enter your details
+                to launch the proctored exam dashboard.</p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="roll_no">Roll Number / Registration ID <span style="color:red">*</span></label>
+                    <input type="text" id="roll_no" required placeholder="e.g., CS2024-001">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name <span style="color:red">*</span></label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span style="color:red">*</span></label>
+                    <input type="email" id="email" required placeholder="john.doe@college.edu">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="padding-right: 0;">
+                        <label for="college_name">College / Institute <span style="color:red">*</span></label>
+                        <input type="text" id="college_name" required placeholder="University Name">
+                    </div>
+                    <div class="form-group" style="padding-right: 0;">
+                        <label for="cgpa">Current CGPA <span style="color:red">*</span></label>
+                        <input type="number" step="0.01" min="0" max="10" id="cgpa" required placeholder="8.50">
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="primary-btn"
+                    style="width: 100%; margin-top: 1rem;">Authenticate & Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+
+</html>

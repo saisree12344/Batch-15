@@ -1,0 +1,120 @@
+:root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --bg-light: #f3f4f6;
+    --text-main: #1f2937;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-dark);
+    margin-bottom: 30px;
+}
+
+.question {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.options-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.option {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option:hover {
+    border-color: var(--primary);
+    background-color: #eff6ff;
+}
+
+.option.selected {
+    border-color: var(--primary);
+    background-color: #dbeafe;
+}
+
+.option.correct {
+    border-color: var(--success);
+    background-color: #d1fae5;
+}
+
+.option.wrong {
+    border-color: var(--danger);
+    background-color: #fee2e2;
+}
+
+#submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#submit-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.result-container {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.score-text {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.feedback {
+    margin-top: 10px;
+    font-weight: 600;
+}

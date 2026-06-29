@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom Quiz</title>
+    <link rel="stylesheet" href="exam.css">
+    <style>
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1 id="quiz-title">Custom Knowledge Assessment</h1>
+
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div id="quiz-content">
+            <!-- Questions will be injected here -->
+        </div>
+
+        <button id="submit-btn" style="display: none;" onclick="submitQuiz()">Complete Exam</button>
+
+        <div id="result" class="result-container">
+            <div class="score-text">Final Score: <span id="score-val">0</span> / <span id="total-val">0</span></div>
+            <div id="feedback-msg" class="feedback"></div>
+            <button onclick="location.reload()" id="restart-btn"
+                style="margin-top: 20px; padding: 10px 20px; background: #94a3b8; border: none; color: white; border-radius: 5px; cursor: pointer;">Reset
+                Attempt</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION: Add or edit your questions here!
+        const quizData = {
+            title: "Advanced Coding Concepts",
+            questions: [
+                {
+                    text: "What does HTML stand for?",
+                    options: ["Hyper Text Markup Language", "High Tech Multi Language", "Hyper Transfer Main Link", "Home Tool Markup Language"],
+                    correct: 0
+                },
+                {
+                    text: "Which language is used for styling web pages?",
+                    options: ["HTML", "Python", "CSS", "SQL"],
+                    correct: 2
+                },
+                {
+                    text: "What is the result of 2 + '2' in JavaScript?",
+                    options: ["4", "22", "NaN", "Error"],
+                    correct: 1
+                },
+                {
+                    text: "Which company developed the React library?",
+                    options: ["Google", "Microsoft", "Meta (Facebook)", "Apple"],
+                    correct: 2
+                },
+                {
+                    text: "What is the primary purpose of a 'git' system?",
+                    options: ["Web Hosting", "Version Control", "Graphic Design", "Data Analysis"],
+                    correct: 1
+                }
+            ]
+        };
+
+        const selections = {};
+        const quizContent = document.getElementById('quiz-content');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function renderQuiz() {
+            document.getElementById('quiz-title').innerText = quizData.title;
+            quizContent.innerHTML = '';
+
+            quizData.questions.forEach((q, idx) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <div class="question-header">
+                        <span>Question ${idx + 1} of ${quizData.questions.length}</span>
+                    </div>
+                    <p style="font-weight: bold; font-size: 1.1rem;">${q.text}</p>
+                    <div class="options-list">
+                        ${q.options.map((opt, optIdx) => `
+                            <div class="option" data-q="${idx}" data-idx="${optIdx}">${opt}</div>
+                        `).join('')}
+                    </div>
+                `;
+                quizContent.appendChild(questionDiv);
+            });
+
+            // Add click listeners
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function () {
+                    const qIdx = parseInt(this.getAttribute('data-q'));
+                    const optIdx = parseInt(this.getAttribute('data-idx'));
+
+                    // Clear previous selection in this question
+                    const siblings = this.parentElement.querySelectorAll('.option');
+                    siblings.forEach(s => s.classList.remove('selected'));
+
+                    this.classList.add('selected');
+                    selections[qIdx] = optIdx;
+
+                    updateProgress();
+                });
+            });
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(selections).length;
+            const progress = (answered / quizData.questions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+
+            if (answered === quizData.questions.length) {
+                submitBtn.style.display = 'block';
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const questions = document.querySelectorAll('.question');
+
+            questions.forEach((qDiv, idx) => {
+                const correctIdx = quizData.questions[idx].correct;
+                const userIdx = selections[idx];
+                const options = qDiv.querySelectorAll('.option');
+
+                options.forEach((opt, optIdx) => {
+                    opt.style.pointerEvents = 'none'; // Disable clicking
+                    if (optIdx === correctIdx) {
+                        opt.classList.add('correct');
+                    }
+                    if (userIdx === optIdx && userIdx !== correctIdx) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                if (userIdx === correctIdx) score++;
+            });
+
+            // Notify parent proctoring system
+            window.parent.postMessage({
+                type: 'EXAM_RESULT',
+                score: score,
+                total: quizData.questions.length,
+                timestamp: new Date().toISOString()
+            }, '*');
+
+            // Show results
+            document.getElementById('quiz-content').style.opacity = '0.7';
+            submitBtn.style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('score-val').innerText = score;
+            document.getElementById('total-val').innerText = quizData.questions.length;
+
+            const feedback = document.getElementById('feedback-msg');
+            const perc = (score / quizData.questions.length) * 100;
+
+            if (perc === 100) {
+                feedback.innerText = "Perfect score! Outstanding performance.";
+                feedback.style.color = "var(--success)";
+            } else if (perc >= 70) {
+                feedback.innerText = "Great job! You passed the assessment.";
+                feedback.style.color = "var(--primary)";
+            } else {
+                feedback.innerText = "Keep practicing. You'll get better!";
+                feedback.style.color = "var(--danger)";
+            }
+        }
+
+        renderQuiz();
+    </script>
+</body>
+
+</html>

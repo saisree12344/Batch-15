@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Session - AI Proctoring</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.mjs" type="module"></script>
+</head>
+
+<body>
+    <div id="error-display" class="error-banner" style="display: none;"></div>
+    <div id="toast-container"></div>
+    <div class="container session-page">
+        <header>
+            <h1>AI Proctoring Session</h1>
+            <div class="header-badges">
+                <div id="integrity-score" class="score-badge" style="display: none;">TrustScore: 100%</div>
+                <div id="timer-display" class="score-badge"
+                    style="background: var(--bg-secondary); border-color: var(--accent);">Time: --:--</div>
+                <div id="status" class="status-badge">Initializing...</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="exam-section">
+                <div id="monitoring-locked-placeholder" class="placeholder">
+                    <p style="color: var(--accent); font-weight: bold;">Initializing AI Models...</p>
+                    <p>The exam will appear as soon as the proctoring is active.</p>
+                </div>
+                <iframe id="exam-frame" src="" frameborder="0" style="display: none;"></iframe>
+            </div>
+
+            <div class="monitor-sidebar">
+                <div class="video-section">
+                    <div id="start-overlay" class="overlay">
+                        <button id="start-btn" class="primary-btn" disabled>Waiting for AI...</button>
+                        <p class="hint">Ensure you are in a well-lit environment</p>
+                    </div>
+                    <div class="video-container">
+                        <video id="webcam" autoplay playsinline></video>
+                        <canvas id="output_canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h2>Live Monitoring Log</h2>
+                    <div id="ai-status" class="ai-status-indicator">AI: System Initializing...</div>
+                    <div id="event-log" class="log-container"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="session.js"></script>
+</body>
+
+</html>
